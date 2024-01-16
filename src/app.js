@@ -1,11 +1,19 @@
-const express = require("express");
-const waitListRoutes = require("./routes/waitListRoutes");
-const app = express();
-app.use(express.json());
+import express, { json } from "express";
+import waitListRoutes from "./routes/waitListRoutes";
 
+const app = express();
+require("dotenv").config();
+
+app.use(json());
+app.set("json spaces", 2);
 app.use("/api/waitlist", waitListRoutes);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+const PORT = process.env.PORT || 3000;
 
-module.exports = app;
+app.get("/", async (req, res) => {
+	res.json({ status: true, message: "Navarra Working" });
+});
+
+app.listen(PORT, () => console.log(`App listening at port ${PORT}`));
+
+export default app;
